@@ -1,9 +1,7 @@
-import { Request, Response } from 'express';
-import * as productService from '../service/productService';
-import * as userService from '../service/userService'; // Assuming you have a userService for fetching users
+import * as productService from '../service/productService.js';  // Add `.js` for ES modules
 
 // Fetch all products
-export const getProducts = async (req: Request, res: Response): Promise<void> => {
+export const getProducts = async (req, res) => {
   try {
     const products = await productService.getAllProducts();
     res.status(200).json(products);
@@ -13,7 +11,7 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
 };
 
 // Add a new product
-export const addProduct = async (req: Request, res: Response): Promise<void> => {
+export const addProduct = async (req, res) => {
   const { name, price, imageUrl } = req.body;
   try {
     const newProduct = await productService.addProduct(name, price, imageUrl);
@@ -24,7 +22,7 @@ export const addProduct = async (req: Request, res: Response): Promise<void> => 
 };
 
 // Update an existing product
-export const updateProduct = async (req: Request, res: Response): Promise<void> => {
+export const updateProduct = async (req, res) => {
   const { name, price, imageUrl } = req.body;
   try {
     const updatedProduct = await productService.updateProduct(req.params.id, name, price, imageUrl);
@@ -35,7 +33,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
 };
 
 // Delete a product
-export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
+export const deleteProduct = async (req, res) => {
   try {
     const result = await productService.deleteProduct(req.params.id);
     res.status(200).json(result);

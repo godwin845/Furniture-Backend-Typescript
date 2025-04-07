@@ -1,21 +1,21 @@
-import express, { Application } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import authRoutes from './routes/userRoutes';
-import productRoutes from './routes/productRoutes';
+import authRoutes from './routes/userRoutes.js';  // Add .js extension for ES Modules
+import productRoutes from './routes/productRoutes.js';  // Add .js extension for ES Modules
 
 dotenv.config();
 
-const app: Application = express();
-const PORT: any = process.env.PORT || 10000;
+const app = express();
+const PORT = process.env.PORT || 10000;
 const HOST = process.env.HOST || '0.0.0.0';
 
 app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI as string)
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 

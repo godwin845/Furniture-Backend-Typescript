@@ -2,8 +2,9 @@
   "name": "furniture-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon src/server.ts"
+    "start": "node --watch src/server.js"
   },
   "author": "",
   "license": "ISC",

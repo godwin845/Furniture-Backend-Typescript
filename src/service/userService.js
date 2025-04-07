@@ -1,17 +1,19 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { User, IUser } from '../models/user'; // Assuming you have an interface IUser for User model
+import { User } from '../models/user.js';  // Add `.js` for ES modules
 
-export const getAllUsers = async (): Promise<IUser[]> => {
+// Get all users
+export const getAllUsers = async () => {
   try {
     const users = await User.find();
-    return users; 
-  } catch (error: any) {
+    return users;
+  } catch (error) {
     throw new Error(`Error fetching users: ${error.message}`);
   }
 };
 
-export const registerUser = async (name: string, email: string, password: string): Promise<{ message: string; token: string }> => {
+// Register a new user
+export const registerUser = async (name, email, password) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) throw new Error('Email already registered.');
 
@@ -19,13 +21,14 @@ export const registerUser = async (name: string, email: string, password: string
   const newUser = new User({ name, email, password: hashedPassword });
   await newUser.save();
 
-  // Optionally generate JWT on registration
+  // Generate JWT on registration
   const token = jwt.sign({ userId: newUser._id, email: newUser.email }, 'dhckwhnyehwfowe', { expiresIn: '1h' });
 
   return { message: 'User registered successfully.', token };
 };
 
-export const loginUser = async (email: string, password: string): Promise<{ message: string; token: string }> => {
+// Login an existing user
+export const loginUser = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error('Invalid email or password.');
 
